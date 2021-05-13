@@ -1,37 +1,38 @@
 corpora:
-    ilci:
-        splits: ['train', 'test', 'dev']
-        langs: [ 'en', 'hi', 'ta', 'te', 'ml', 'ur', 'bn', 'gu', 'mr', 'pa']
-        #langs: ['en', 'hi','ta', 'te']
-    #wat-ilmpc:
-    #     splits: ['dev']
-    #     langs: ['en', 'ta']
+    #mann-ki-baat-test:
+    #    splits : ['test']
+    #    langs : ['hi','en']
+    #ilci_pa:
+    #    splits: ['train','test','dev']
+    #     # langs: [ 'en', 'hi',  'ta', 'te', 'ml', 'ur', 'bn']
+    #    langs: ['en', 'pa']
+     #   langs: ['en', 'hi']
+        # wat-ilmpc:
+        # wat-splits: ['dev']
+        # wat-langs: ['en', 'ta']
     #iitb-hi-en:
-    #     splits: ['train', 'dev', 'test']
-    #     langs: ['en', 'hi']
+    #    splits: ['train', 'dev', 'test']
+    #    langs: ['en', 'hi']
+    #iitb-hi-en-bt:
+    #    splits: ['train', 'dev', 'test']
+    #    langs: ['en', 'hi']
     #wat-ilmpc:
-    #     splits: ['train', 'dev', 'test']
-    #     langs: [ 'en', 'hi', 'ta', 'te', 'ml', 'ur', 'bn']
-         #langs: ['en', 'hi',  'ta', 'te']
+    #     #splits: ['train', 'dev', 'test']
+    #     splits: ['train']
+    #     # langs: [ 'en', 'hi',  'ta', 'te', 'ml', 'ur', 'bn']
+    #     langs: ['en','bn']
     #national-newscrawl:
     #     splits: ['train']
-    #     langs: ['en', 'hi']
+    #     langs: ['en', 'or']
     #ufal-en-tam:
-    #    splits: ['train', 'test', 'dev']
-    #    langs: ['en', 'ta']
-    #bible-en-te:
-    #    splits: ['train', 'test', 'dev']
-    #    langs: ['en', 'te']
-    #mann-ki-baat-test:
-    #    splits: ['test']
-    #    langs: ['en', 'hi',  'ta', 'te']
-    #eenadu-en-te:
     #    splits: ['train']
-    #    langs: ['en','te']
-    odiencorp:
-        splits: ['train', 'test', 'dev']
-        langs: ['en','or']
-
+    #    langs: ['en', 'pa']
+    #monolingual:
+    #    splits: ['train']
+    #    langs: ['en','pa']
+    #odi-en-corp1.0:
+    #    splits: ['train','dev','test']
+    #    langs: ['en','or']
 dictionary:
-    src: '/home/shashanks/ilmulti/ilmulti/sentencepiece/central.dict'
-    tgt: '/home/shashanks/ilmulti/ilmulti/sentencepiece/central.dict'
+    src: '/content/ilmulti/resources/fairseq-dictionaries/ilmulti-v1.dict.txt'
+    tgt: '/content/ilmulti/resources/fairseq-dictionaries/ilmulti-v1.dict.txt'
