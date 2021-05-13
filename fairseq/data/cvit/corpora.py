@@ -1,7 +1,6 @@
 from . import DATASET_REGISTRY
 from . import dataset_register, data_abspath
 from . import Corpus, sanity_check
-from itertools import permutations, combinations
 
 
 @dataset_register('iitb-hi-en', ['train', 'dev', 'test'])
@@ -13,6 +12,34 @@ def IITB_meta(split):
         corpora.append(corpus)
     return corpora
 
+@dataset_register('monolingual', ['train'])
+def MONO_meta(split):
+    corpora = []
+    for lang in ['en','pa']:
+        sub_path = 'monolingual-en-pa/train.{}'.format(split, lang)
+        corpus = Corpus('monolingual', data_abspath(sub_path), lang)
+        corpora.append(corpus)
+    return corpora
+
+@dataset_register('iitb-hi-en-bt', ['train', 'dev', 'test'])
+def IITB_bt_meta(split):
+    corpora = []
+    for lang in ['en', 'hi']:
+        sub_path = 'iitb_bt/{}.{}'.format(split, lang)
+        corpus = Corpus('iitb-hi-en', data_abspath(sub_path), lang)
+        corpora.append(corpus)
+    return corpora
+
+@dataset_register('odi-en-corp1.0', ['train','dev','test'])
+def OdiEnCorp_meta(split):
+    corpora = []
+    for lang in ['en', 'or']:
+        sub_path = 'OdiEnCorp/{}.{}'.format(split, lang)
+        corpus = Corpus('odi-en-corp1.0', data_abspath(sub_path), lang)
+        corpora.append(corpus)
+    return corpora
+
+
 @dataset_register('national-newscrawl', ['train', 'dev', 'test'])
 def NationalNewscrawl_meta(split):
     if split in ['dev', 'test']:
@@ -20,179 +47,56 @@ def NationalNewscrawl_meta(split):
     corpora = []
     for lang in ['en', 'hi']:
         sub_path = 'national-newscrawl/national.{}'.format(lang)
-        #corpus = Corpus('iitb-hi-en', data_abspath(sub_path), lang)
         corpus = Corpus('national-newscrawl', data_abspath(sub_path), lang)
         corpora.append(corpus)
     return corpora
 
-@dataset_register('wat-ilmpc', ['train', 'dev', 'test'])
+# @dataset_register('monolingual_en_hi_pa', ['train'])
+# def PIBOriya_meta(split):
+#     corpora = []
+#     for lang in ['en']:
+#         sub_path = 'monolingual_en_hi_pa/train.{}'.format(lang)
+#         corpus = Corpus('monolingual_en_hi_pa', data_abspath(sub_path), lang)
+#         corpora.append(corpus)
+#     return corpora
+
+
+@dataset_register('wat-ilmpc', ['train'])
 def WAT_meta(split):
     corpora = []
-    langs = ['bn', 'hi', 'ml', 'ta', 'te', 'ur']
+    #langs = ['bn', 'hi', 'ml', 'si', 'ta', 'te', 'ur']
+    langs = ['ml']
     for lang in langs:
-        for src in [lang, 'en']:
-            sub_path = 'indic_languages_corpus/bilingual/{}-en/{}.{}'.format(
+        for src in ['en',lang]:
+            sub_path = 'indic_languages_corpus/bilingual/en-{}/{}.{}'.format(
                     lang, split, src
             )
-            corpus_name = 'wat-ilmpc-{}-{}'.format(lang, 'en')
+            corpus_name = 'wat-ilmpc-{}-{}'.format('en',lang)
             corpus = Corpus(corpus_name, data_abspath(sub_path), src)
             corpora.append(corpus)
     return corpora
 
-@dataset_register('pib-test', ['test'])
-def PIBTEST_meta(split):
-    corpora = []
-    langs = ['hi', 'ta', 'te', 'ml', 'ur', 'bn', 'gu', 'mr', 'pa', 'or']
-    for lang in langs:
-        fst, snd = sorted([lang, 'en'])
-        dirname = '{}-{}'.format(fst, snd)
-        for src in [lang, 'en']:
-                sub_path = 'pib-test/{}/{}.{}'.format(
-                        dirname, split, src
-                )
-                corpus_name = 'pib-test-{}-{}'.format(lang, 'en')
-                corpus = Corpus(corpus_name, data_abspath(sub_path), src)
-                corpora.append(corpus)
-    return corpora
-
-@dataset_register('pib', ['train', 'dev', 'test'])
-def PIB_meta(split):
-    if split in ['dev', 'test']:
-        return []
-
-    corpora = []
-    langs = ['hi', 'ta', 'te', 'ml', 'ur', 'bn', 'gu', 'mr', 'pa', 'or', 'en']
-    langs = sorted(langs)
-    perm = combinations(langs, 2)
-    for src, tgt in list(perm):
-        for lang in [src, tgt]:
-                sub_path = 'pib/{}-{}/{}.{}'.format(
-                        src, tgt, 'train', lang
-                )
-                corpus_name = 'pib-{}-{}'.format(src, tgt)
-                corpus = Corpus(corpus_name, data_abspath(sub_path), lang)
-                corpora.append(corpus)
-    return corpora
-
-@dataset_register('pib-v1', ['train', 'dev', 'test'])
-def PIBV2_meta(split):
-    if split in ['dev', 'test']:
-        return []
-
-    corpora = []
-    langs = ['hi', 'ta', 'te', 'ml', 'ur', 'bn', 'gu', 'mr', 'pa', 'or', 'en']
-    langs = sorted(langs)
-    perm = combinations(langs, 2)
-    for src, tgt in list(perm):
-        for lang in [src, tgt]:
-                sub_path = 'pib-v1/{}-{}/{}.{}'.format(
-                        src, tgt, 'train', lang
-                )
-                corpus_name = 'pib-v1-{}-{}'.format(src, tgt)
-                corpus = Corpus(corpus_name, data_abspath(sub_path), lang)
-                corpora.append(corpus)
-    return corpora
-
-@dataset_register('pib-v0.2', ['train', 'dev', 'test'])
-def PIBV02_meta(split):
-    if split in ['dev', 'test']:
-        return []
-
-    corpora = []
-    langs = ['hi', 'ta', 'te', 'ml', 'ur', 'bn', 'gu', 'mr', 'pa', 'or', 'en']
-    langs = sorted(langs)
-    perm = combinations(langs, 2)
-    for src, tgt in list(perm):
-        for lang in [src, tgt]:
-                sub_path = 'pib-v0.2/{}-{}/{}.{}'.format(
-                        src, tgt, 'train', lang
-                )
-                corpus_name = 'pib-v0.2-{}-{}'.format(src, tgt)
-                corpus = Corpus(corpus_name, data_abspath(sub_path), lang)
-                corpora.append(corpus)
-    return corpora
-
-@dataset_register('mkb-v0', ['train', 'dev', 'test'])
-def MKB_meta(split):
-    if split in ['train', 'dev']:
-        return []
-
-    corpora = []
-    langs = ['ml', 'ur', 'te', 'hi', 'ta', 'bn', 'gu', 'or', 'mr', 'en']
-    langs = sorted(langs)
-    perm = combinations(langs, 2)
-    for src, tgt in list(perm):
-        for lang in [src, tgt]:
-                sub_path = 'mkb/{}-{}/{}.{}'.format(
-                        src, tgt, 'mkb', lang
-                )
-                corpus_name = 'mkb-v0-{}-{}'.format(src, tgt)
-                corpus = Corpus(corpus_name, data_abspath(sub_path), lang)
-                corpora.append(corpus)
-    return corpora
-
-
-@dataset_register('wat-mkb-dev', ['train', 'dev', 'test'])
-def WAT_MKB_DEV(split):
-    if split in ['train']:
-        return []
-
-    corpora = []
-    langs = ['bn', 'gu', 'hi', 'ml', 'mr', 'ta', 'te']
-    for lang in langs:
-        for src in [lang, 'en']:
-            sub_path = 'wat-mkb-dev/{}.{}-en.{}'.format(
-                    split, lang, src
-            )
-            corpus_name = 'wat-mkb-dev-{}-{}'.format(lang, 'en')
-            corpus = Corpus(corpus_name, data_abspath(sub_path), src)
-            corpora.append(corpus)
-    return corpora
-
-@dataset_register('wat-mkb-test', ['train', 'dev', 'test'])
-def WAT_MKB_TEST(split):
-    if split in ['train', 'dev']:
-        return []
-
-    corpora = []
-    langs = ['bn', 'gu', 'hi', 'ml', 'mr', 'ta', 'te']
-    for lang in langs:
-        for src in [lang, 'en']:
-            sub_path = 'wat-mkb-test/{}.{}-en.{}'.format(
-                    split, lang, src
-            )
-            corpus_name = 'wat-mkb-test-{}-{}'.format(lang, 'en')
-            corpus = Corpus(corpus_name, data_abspath(sub_path), src)
-            corpora.append(corpus)
-    return corpora
-
-@dataset_register('ufal-en-tam', ['train', 'dev', 'test'])
+@dataset_register('ufal-en-tam', ['train'])
 def UFALEnTam_meta(split):
     corpora = []
-    for lang in ['en', 'ta']:
-        sub_path = 'ufal-en-tam/{}.{}.{}'.format('corpus.bcn', split, lang)
+    for lang in ['en', 'pa']:
+        sub_path = 'ufal-en-tam/{}.{}'.format(split, lang)
         corpus = Corpus('ufal-en-tam', data_abspath(sub_path), lang)
         corpora.append(corpus)
     return corpora
 
-
-@dataset_register('ilci', ['train', 'dev', 'test'])
+@dataset_register('ilci_pa', ['train', 'dev', 'test'])
 def ILCI_meta(split):
-    #if split in ['dev', 'test']:
-    #    return []
+    # if split in ['dev', 'test']:
+    #     return []
     corpora = []
-    langs = [
-        'en', 'te', 'hi', 'ml', 
-        'ta', 'ud', 'bg', 'mr',
-        'gj', 'pj', 'kn'
-    ]
-
-    from .utils import canonicalize
+    langs = ['en', 'pa']
+    # from .utils import canonicalize
 
     for lang in langs:
-        sub_path = 'ilci/{}.{}'.format(split, lang)
-        _lang = canonicalize(lang)
-        corpus = Corpus('ilci', data_abspath(sub_path), _lang)
+        sub_path = 'ilci_pa_en/{}.{}'.format(split,lang)
+        # _lang = canonicalize(lang)
+        corpus = Corpus('ilci_pa', data_abspath(sub_path), lang)
         corpora.append(corpus)
     return corpora
 
@@ -200,11 +104,19 @@ def ILCI_meta(split):
 def BIBLEEnTe_meta(split):
     corpora = []
     for lang in ['en', 'te']:
-        sub_path = 'bible-en-te/{}.{}.{}'.format('bible', split, lang)
+        sub_path = 'bible-en-te/bible.{}.{}'.format(split, lang)
         corpus = Corpus('bible-en-te', data_abspath(sub_path), lang)
         corpora.append(corpus)
     return corpora
 
+@dataset_register('mann-ki-baat-test', ['test'])
+def MannKiBaat_meta(split):
+    corpora = []
+    for lang in ['hi','en']:
+        sub_path = 'mann-ki-baat-test/test.{}'.format(lang)
+        corpus = Corpus('mann-ki-baat-test', data_abspath(sub_path), lang)
+        corpora.append(corpus)
+    return corpora
 
 @dataset_register('eenadu-en-te', ['train'])
 def EenaduBacktrans_meta(split):
@@ -217,91 +129,6 @@ def EenaduBacktrans_meta(split):
         corpus = Corpus('eenadu-en-te', data_abspath(sub_path), lang)
         corpora.append(corpus)
     return corpora
-
-@dataset_register('odiencorp', ['train', 'dev', 'test'])
-def OdiEnCorp_meta(split):
-    corpora = []
-    for lang in ['en', 'or']:
-        sub_path = 'odiencorp/{}.{}'.format(split, lang)
-        corpus = Corpus('odiencorp', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
-
-@dataset_register('newstest2019guen', ['train', 'dev', 'test'])
-def NewsTest2019guen_meta(split):
-    if split in ['train', 'dev']:
-        return []
-
-    corpora = []
-    for lang in ['en','gu']:
-        sub_path = 'newstest2019guen/{}.{}'.format(split, lang)
-        corpus = Corpus('newstest2019guen', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
-@dataset_register('newstest2019engu', ['train', 'dev', 'test'])
-def NewsTest2019engu_meta(split):
-    if split in ['train', 'dev']:
-        return []
-
-    corpora = []
-    for lang in ['en','gu']:
-        sub_path = 'newstest2019engu/{}.{}'.format(split, lang)
-        corpus = Corpus('newstest2019engu', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
-@dataset_register('newstest2020taen', ['train', 'dev', 'test'])
-def NewsTest2020taen_meta(split):
-    if split in ['train', 'dev']:
-        return []
-
-    corpora = []
-    for lang in ['en','ta']:
-        sub_path = 'newstest2020taen/{}.{}'.format(split, lang)
-        corpus = Corpus('newstest2020taen', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
-@dataset_register('newstest2020enta', ['train', 'dev', 'test'])
-def NewsTest2020enta_meta(split):
-    if split in ['train', 'dev']:
-        return []
-
-    corpora = []
-    for lang in ['en','ta']:
-        sub_path = 'newstest2020enta/{}.{}'.format(split, lang)
-        corpus = Corpus('newstest2020enta', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
-@dataset_register('newsdev2019', ['train', 'dev', 'test'])
-def NewsDev2019_meta(split):
-    if split in ['train']:
-        return []
-
-    corpora = []
-    langs = ['en', 'gu']
-    for lang in langs:
-        sub_path = 'newsdev2019/{}.{}'.format(split, lang)
-        corpus = Corpus('newsdev2019', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
-@dataset_register('newsdev2020', ['train', 'dev', 'test'])
-def NewsDev2020_meta(split):
-    if split in ['train']:
-        return []
-
-    corpora = []
-    langs = ['en','ta']
-    for lang in langs:
-        sub_path = 'newsdev2020/{}.{}'.format(split, lang)
-        corpus = Corpus('newsdev2020', data_abspath(sub_path), lang)
-        corpora.append(corpus)
-    return corpora
-
 
 if __name__ == '__main__':
     def merge(*_as):
