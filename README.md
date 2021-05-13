@@ -1,4 +1,4 @@
-[embed]https://github.com/AmanSinghal927/fairseq-ilmt/blob/master/Exploring_Pair-Wise_NMT_for_Indian_Languages.pdf[/embed]
+[embed]https://github.com/AmanSinghal927/fairseq-ilmt/blob/master/Exploring_Pair-Wise_NMT_for_Indian_Languages.pdf [/embed]
 
 
 
