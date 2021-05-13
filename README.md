@@ -1,3 +1,8 @@
+[embed]https://github.com/AmanSinghal927/fairseq-ilmt/blob/master/Exploring_Pair-Wise_NMT_for_Indian_Languages.pdf[/embed]
+
+
+
+
 # <img src="fairseq_logo.png" width="30"> Introduction
 
 Fairseq(-py) is a sequence modeling toolkit that allows researchers and
